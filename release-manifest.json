@@ -18,8 +18,8 @@
   "files": [
     {
       "path": ".gitignore",
-      "bytes": 65,
-      "sha256": "dad0467cb50989c4d7ee961c7d80b4eee93d8f57547ac943210f3f725d8097b5"
+      "bytes": 64,
+      "sha256": "70f741a34191dfe80d1b6467d3732cf0f94e69cc6c3f0da5978ae401f77af268"
     },
     {
       "path": "DESIGN.md",
@@ -28,8 +28,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 7607,
-      "sha256": "7772f60e32f7f1f02e30c2ba17b9aed77766325f4cafa776a3d66cfedd27e480"
+      "bytes": 7617,
+      "sha256": "f405ebc52218a8e3ae5932ec11300a365254ec0fd0b56de29e4c659e6dba79aa"
     },
     {
       "path": "SKILL.md",
@@ -388,8 +388,8 @@
     },
     {
       "path": "tools/validate_question_slices.py",
-      "bytes": 2926,
-      "sha256": "19366d8067dcc6e09123e6209cff1ccc462484aa63edf9818ca2b30b894c2931"
+      "bytes": 2925,
+      "sha256": "6ce3deca7f24481bbc9cc3d29a4f76f128b2971a9bd3cae8897099cb4383dbcc"
     },
     {
       "path": "tools/validate_semantic_projection.py",

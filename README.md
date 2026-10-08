@@ -4,10 +4,10 @@
 
 2026-10-09：报告现在会把 Skill 的决策逻辑整理成“输入场景 → 判断 → 动作”。有固定预设的 Skill 会继续显示“场景 → 预设 → 参数”；没有固定预设的 Skill 也会显示条件分支、动作和证据状态。报告仍会区分源码声明与实际运行记录。
 
-完整记录见 [发布记录](releases/release-notes.md)。
+完整记录见 [发布记录](docs/releases/release-notes.md)。
 
 当前交付支持源码静态透视、问题驱动解释、离线 Bundle 查询和证据报告。正式交互界面尚未完成。
-现在也包含可直接打开的离线 HTML 可视化报告，说明见 [VISUAL_REPORT.md](VISUAL_REPORT.md)。
+现在也包含可直接打开的离线 HTML 可视化报告，说明见 [VISUAL_REPORT.md](docs/VISUAL_REPORT.md)。
 默认 `inspect` 生成规则 Projection；`ask` 返回检索结果，不自动调用模型。
 
 ## 解释一个问题
