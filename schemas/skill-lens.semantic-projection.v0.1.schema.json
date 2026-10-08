@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://skill-lens.dev/schema/semantic-projection.v0.1.json",
+  "title": "Skill Lens Semantic Projection v0.1",
+  "type": "object",
+  "required": ["schema", "caseId", "revision", "objects"],
+  "properties": {
+    "schema": {"const": "skill-lens.semantic-projection.v0.1"},
+    "caseId": {"type": "string", "minLength": 1},
+    "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["runId", "source", "generatedAtUtc"],
+      "properties": {
+        "runId": {"type": "string", "minLength": 1},
+        "source": {"enum": ["model", "external-program", "fixture"]},
+        "generatedAtUtc": {"type": "string", "minLength": 1}
+      }
+    },
+    "objects": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "label", "summary", "evidenceNodeIds"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "type": {"enum": ["Capability", "Component", "Scenario", "Ownership", "Limitation", "Uncertainty"]},
+          "label": {"type": "string", "minLength": 1},
+          "summary": {"type": "string", "minLength": 1},
+          "evidenceNodeIds": {"type": "array", "items": {"type": "string"}, "minItems": 1}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "skill-lens.question-slices.v0.1",
+  "type": "object",
+  "required": ["schema", "caseId", "revision", "slices"],
+  "properties": {
+    "schema": {"const": "skill-lens.question-slices.v0.1"},
+    "caseId": {"type": "string", "minLength": 1},
+    "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "slices": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["questionId", "slice"],
+        "properties": {
+          "questionId": {"type": "string", "minLength": 1},
+          "slice": {
+            "type": "object",
+            "required": ["selected"],
+            "properties": {
+              "selected": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["nodeId", "evidenceId"],
+                  "properties": {
+                    "nodeId": {"type": "string", "minLength": 1},
+                    "evidenceId": {"type": "string", "minLength": 1},
+                    "source": {"type": "object"}
+                  },
+                  "additionalProperties": true
+                }
+              }
+            },
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

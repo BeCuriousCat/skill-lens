@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "skill-lens.blind-independent-review.v0.1",
+  "title": "Skill Lens blind-test independent review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "reviewId", "status", "reviewer", "samples", "gate7Closed"],
+  "properties": {
+    "schema": {"const": "skill-lens.blind-independent-review.v0.1"},
+    "reviewId": {"type": "string", "minLength": 1},
+    "status": {"enum": ["pending-reviewer-input", "complete"]},
+    "reviewer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "independence"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "independence": {"enum": ["separate-internal", "external"]}
+      }
+    },
+    "samples": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["caseId", "inputBundle", "revision", "verdict", "evidenceNodeIds", "boundary", "issueLayer"],
+        "properties": {
+          "caseId": {"type": "string", "minLength": 1},
+          "inputBundle": {"type": "string", "minLength": 1},
+          "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+          "verdict": {"enum": ["pending", "supported", "unsupported", "missing", "overstated", "unknown"]},
+          "evidenceNodeIds": {"type": "array", "items": {"type": "string"}},
+          "boundary": {"type": "string", "minLength": 1},
+          "issueLayer": {"enum": ["provider", "evidence-graph", "projection", "product-expression", "none"]},
+          "notes": {"type": "string"}
+        }
+      }
+    },
+    "gate7Closed": {"const": false},
+    "decision": {"type": "string", "minLength": 1}
+  }
+}

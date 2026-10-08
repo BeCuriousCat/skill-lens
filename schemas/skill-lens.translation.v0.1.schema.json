@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://skill-lens.dev/schema/translation.v0.1.json",
+  "title": "Skill Lens bilingual translation sidecar",
+  "type": "object",
+  "required": ["schema", "graphSha256", "locale", "mode", "status"],
+  "properties": {
+    "schema": {"const": "skill-lens.translation.v0.1"},
+    "graphSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "locale": {"const": "zh-CN"},
+    "mode": {"const": "bilingual"},
+    "source": {"type": "string"},
+    "status": {"enum": ["available", "partial", "unavailable"]},
+    "message": {"type": "string"},
+    "overview": {
+      "type": "object",
+      "properties": {
+        "summary": {"type": "string", "minLength": 1},
+        "confidenceNote": {"type": "string", "minLength": 1},
+        "mechanismChain": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "modules": {"type": "array", "items": {
+          "type": "object",
+          "required": ["id", "title", "action", "check"],
+          "properties": {
+            "id": {"type": "string", "minLength": 1},
+            "title": {"type": "string", "minLength": 1},
+            "action": {"type": "string", "minLength": 1},
+            "check": {"type": "string", "minLength": 1},
+            "evidenceNodeIds": {"type": "array", "items": {"type": "string"}},
+            "evidenceLabels": {"type": "array", "items": {"type": "string", "minLength": 1}}
+          },
+          "additionalProperties": false
+        }},
+        "scenarioPresets": {"type": "array", "items": {
+          "type": "object",
+          "required": ["id", "title", "when", "dials", "result"],
+          "properties": {
+            "id": {"type": "string", "minLength": 1},
+            "title": {"type": "string", "minLength": 1},
+            "when": {"type": "string", "minLength": 1},
+            "dials": {
+              "type": "object",
+              "required": ["DESIGN_VARIANCE", "MOTION_INTENSITY", "VISUAL_DENSITY"],
+              "properties": {
+                "DESIGN_VARIANCE": {"oneOf": [{"type": "number"}, {"type": "string", "minLength": 1}]},
+                "MOTION_INTENSITY": {"oneOf": [{"type": "number"}, {"type": "string", "minLength": 1}]},
+                "VISUAL_DENSITY": {"oneOf": [{"type": "number"}, {"type": "string", "minLength": 1}]}
+              },
+              "additionalProperties": false
+            },
+            "result": {"type": "string", "minLength": 1},
+            "evidenceNodeIds": {"type": "array", "items": {"type": "string"}},
+            "evidenceLabels": {"type": "array", "items": {"type": "string", "minLength": 1}}
+          },
+          "additionalProperties": false
+        }},
+        "presetAssessment": {
+          "type": "object",
+          "required": ["status", "label", "note"],
+          "properties": {
+            "status": {"enum": ["unobserved", "observed", "partial"]},
+            "label": {"type": "string", "minLength": 1},
+            "note": {"type": "string", "minLength": 1},
+            "evidenceNodeIds": {"type": "array", "items": {"type": "string"}},
+            "evidenceLabels": {"type": "array", "items": {"type": "string", "minLength": 1}}
+          },
+          "additionalProperties": false
+        },
+        "example": {
+          "type": "object",
+          "required": ["input", "decision", "output", "limitation"],
+          "properties": {
+            "input": {"type": "string", "minLength": 1},
+            "decision": {"type": "string", "minLength": 1},
+            "output": {"type": "string", "minLength": 1},
+            "limitation": {"type": "string", "minLength": 1},
+            "evidenceNodeIds": {"type": "array", "items": {"type": "string"}},
+            "evidenceLabels": {"type": "array", "items": {"type": "string", "minLength": 1}}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "terms": {"type": "array", "items": {"type": "object", "required": ["source", "translation"], "properties": {"source": {"type": "string"}, "translation": {"type": "string"}}, "additionalProperties": false}},
+    "claims": {"type": "object", "additionalProperties": {"$ref": "#/$defs/entry"}},
+    "sources": {"type": "object", "additionalProperties": {"$ref": "#/$defs/entry"}}
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "required": ["translation", "status"],
+      "properties": {
+        "translation": {"type": "string"},
+        "status": {"enum": ["machine-translated", "human-reviewed", "unavailable"]}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

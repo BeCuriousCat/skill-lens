@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://skill-lens.dev/schema/explanation-chain.v0.1.json",
+  "title": "Skill Lens question explanation chain",
+  "type": "object",
+  "required": ["schema", "caseId", "revision", "graphSha256", "question", "summary", "status", "documentAnalysis", "investigation", "claims", "mechanismSteps", "traceSearch", "comparisons", "unknowns", "runContext", "semantics"],
+  "properties": {
+    "schema": {"const": "skill-lens.explanation-chain.v0.1"},
+    "caseId": {"type": "string", "minLength": 1},
+    "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "graphSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "question": {"type": "string", "minLength": 1},
+    "summary": {"type": "string"},
+    "status": {"enum": ["static-only", "trace-found"]},
+    "documentAnalysis": {"type": "object", "required": ["schema", "caseId", "revision", "units", "rules", "relations", "gaps", "boundary"]},
+    "investigation": {"type": "object", "required": ["questionTree", "selected", "sufficiency", "budget", "referenceGaps"]},
+    "claims": {"type": "array", "items": {"$ref": "#/$defs/claim"}},
+    "mechanismSteps": {"type": "array", "items": {"$ref": "#/$defs/mechanismStep"}},
+    "decisionRules": {"type": "array", "items": {"$ref": "#/$defs/decisionRule"}},
+    "traceSearch": {"type": "object", "required": ["schema", "status", "slices", "index", "diagnostics", "searchedFileCount", "eventCount", "selection"]},
+    "comparisons": {"type": "array", "items": {"$ref": "#/$defs/comparison"}},
+    "unknowns": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["question", "reason"], "properties": {"question": {"type": "string"}, "reason": {"type": "string"}}, "additionalProperties": true}},
+    "runContext": {"type": "object", "required": ["sourcePath", "analysisStatus", "revisionKind", "providerDiagnostics"], "properties": {"sourcePath": {"type": ["string", "null"]}, "analysisStatus": {"enum": ["complete", "partial", null]}, "revisionKind": {"type": "string"}, "providerDiagnostics": {"type": "array"}}, "additionalProperties": true},
+    "semantics": {"type": "object", "required": ["sourceGraph", "ruleRelations", "traceEdges", "explanationOrder"]},
+    "translation": {"$ref": "#/$defs/translation"}
+  },
+  "$defs": {
+    "mechanismStep": {"type": "object", "additionalProperties": false, "required": ["id", "title", "input", "decision", "action", "observable", "evidenceNodeIds", "status", "boundary"], "properties": {
+      "id": {"type": "string"},
+      "title": {"type": "string"},
+      "input": {"type": "string"},
+      "decision": {"type": "string"},
+      "action": {"type": "string"},
+      "observable": {"type": "string"},
+      "evidenceNodeIds": {"type": "array", "items": {"type": "string"}},
+      "status": {"enum": ["source-supported", "inferred-link", "unconfirmed"]},
+      "boundary": {"type": "string"}
+    }},
+    "decisionRule": {"type": "object", "additionalProperties": false, "required": ["id", "title", "scenario", "decision", "action", "status", "evidenceNodeIds"], "properties": {
+      "id": {"type": "string"},
+      "title": {"type": "string"},
+      "scenario": {"type": "string"},
+      "decision": {"type": "string"},
+      "action": {"type": "string"},
+      "status": {"enum": ["source-supported", "inferred-link", "unconfirmed"]},
+      "evidenceNodeIds": {"type": "array", "items": {"type": "string"}}
+    }},
+    "claim": {
+      "type": "object",
+      "required": ["id", "label", "text", "interpretation", "evidenceType", "evidenceNodeIds", "traceEventRefs", "verification"],
+      "properties": {
+        "id": {"type": "string"}, "label": {"type": "string"}, "text": {"type": "string"}, "interpretation": {"type": "string"},
+        "evidenceType": {"enum": ["source-declared", "source-structural", "analyst-interpreted"]},
+        "evidenceNodeIds": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "traceEventRefs": {"type": "array", "items": {"type": "string"}}, "verification": {"type": "string"},
+        "translation": {"type": "string"}, "translationStatus": {"enum": ["machine-translated", "human-reviewed", "unavailable"]}
+      }, "additionalProperties": true
+    },
+    "translation": {
+      "type": "object",
+      "required": ["schema", "locale", "mode", "status"],
+      "properties": {
+        "schema": {"const": "skill-lens.translation.v0.1"},
+        "locale": {"const": "zh-CN"},
+        "mode": {"const": "bilingual"},
+        "status": {"enum": ["available", "partial", "unavailable"]},
+        "source": {"type": "string"},
+        "message": {"type": "string"},
+        "coverage": {"type": "object"}
+      },
+      "additionalProperties": true
+    },
+    "comparison": {
+      "type": "object", "required": ["traceId", "eventId", "status", "observation", "sourceMatch", "reason"],
+      "properties": {"traceId": {"type": "string"}, "eventId": {"type": "string"}, "status": {"const": "observed"}, "observation": {"type": "string"}, "sourceMatch": {"enum": ["unverified", "candidate-overlap", "matched-by-explicit-evidence"]}, "reason": {"type": "string"}},
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

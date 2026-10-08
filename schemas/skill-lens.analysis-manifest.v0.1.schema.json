@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "skill-lens.analysis-manifest.v0.1",
+  "type": "object",
+  "required": ["schema", "caseId", "revision", "provider", "requestedProviders", "completedProviders", "status"],
+  "properties": {
+    "schema": {"const": "skill-lens.analysis-manifest.v0.1"},
+    "caseId": {"type": "string", "minLength": 1},
+    "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "provider": {"type": "object"},
+    "requestedProvider": {},
+    "requestedProviders": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "requestedFacets": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "facetCoverage": {"type": "object", "additionalProperties": {"type": "object", "required": ["providers", "status"], "properties": {"providers": {"type": "array", "items": {"type": "string"}}, "status": {"enum": ["available", "unavailable"]}}, "additionalProperties": false}},
+    "detectedProviders": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "plannedProviders": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "completedProviders": {"type": "array", "items": {"type": "object"}},
+    "selectionMode": {"enum": ["auto", "explicit"]},
+    "status": {"enum": ["complete", "partial"]},
+    "fallbackReason": {},
+    "cache": {"type": "object"}
+  },
+  "additionalProperties": true
+}

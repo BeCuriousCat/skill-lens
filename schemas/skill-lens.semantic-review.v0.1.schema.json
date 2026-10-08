@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "skill-lens.semantic-review.v0.1",
+  "title": "Skill Lens semantic review record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "reviewId", "caseId", "revision", "reviewer", "reviewKind", "inputBundle", "claims", "decision", "gateImpact"],
+  "properties": {
+    "schema": {"const": "skill-lens.semantic-review.v0.1"},
+    "reviewId": {"type": "string", "minLength": 1},
+    "caseId": {"type": "string", "minLength": 1},
+    "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "reviewer": {"type": "object", "additionalProperties": false, "required": ["id", "independence"], "properties": {"id": {"type": "string", "minLength": 1}, "independence": {"enum": ["same-author", "separate-internal", "external"]}}},
+    "reviewKind": {"enum": ["projection-quality", "blind-source-review"]},
+    "inputBundle": {"type": "string", "minLength": 1},
+    "projection": {"type": ["string", "null"]},
+    "claims": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["claimId", "statement", "verdict", "evidenceNodeIds", "boundary", "issueLayer"], "properties": {"claimId": {"type": "string", "minLength": 1}, "statement": {"type": "string", "minLength": 1}, "verdict": {"enum": ["supported", "unsupported", "missing", "overstated", "unknown"]}, "evidenceNodeIds": {"type": "array", "items": {"type": "string"}}, "boundary": {"type": "string", "minLength": 1}, "issueLayer": {"enum": ["provider", "evidence-graph", "projection", "product-expression", "none"]}, "notes": {"type": "string"}}}},
+    "decision": {"type": "string", "minLength": 1},
+    "gateImpact": {"enum": ["supports", "does-not-close", "blocks"]},
+    "createdAt": {"type": "string", "format": "date-time"}
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://skill-lens.dev/schema/evidence-graph.v0.1.json",
+  "title": "Skill Lens Evidence Graph v0.1",
+  "type": "object",
+  "required": ["schema", "caseId", "revision", "analysisRun", "nodes", "edges", "evidence"],
+  "properties": {
+    "schema": {"const": "skill-lens.evidence-graph.v0.1"},
+    "caseId": {"type": "string", "minLength": 1},
+    "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "analysisRun": {"type": "string", "minLength": 1},
+    "nodes": {"type": "array", "items": {"$ref": "#/$defs/node"}},
+    "edges": {"type": "array", "items": {"$ref": "#/$defs/edge"}},
+    "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}}
+  },
+  "$defs": {
+    "node": {
+      "type": "object",
+      "required": ["id", "type", "label", "evidence"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "type": {"type": "string", "minLength": 1},
+        "label": {"type": "string", "minLength": 1},
+        "attributes": {"type": "object"},
+        "evidence": {"type": "array", "items": {"type": "string"}, "minItems": 1}
+      },
+      "additionalProperties": false
+    },
+    "edge": {
+      "type": "object",
+      "required": ["id", "from", "to", "type"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "from": {"type": "string", "minLength": 1},
+        "to": {"type": "string", "minLength": 1},
+        "type": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["id", "sourceType", "source", "quote", "confidence"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "sourceType": {"enum": ["doc", "code", "trace", "inference"]},
+        "source": {"type": "object", "required": ["repository", "revision", "path", "lines"], "properties": {"repository": {"type": "string", "format": "uri"}, "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"}, "path": {"type": "string", "minLength": 1}, "lines": {"type": "string", "minLength": 1}}, "additionalProperties": false},
+        "quote": {"type": "string", "minLength": 1},
+        "confidence": {"enum": ["high", "medium", "low"]}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

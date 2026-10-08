@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "skill-lens.report-understanding-loop.v0.1",
+  "title": "Skill Lens offline report understanding loop",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "status", "round", "mode", "cases", "aggregate", "nextIteration"],
+  "properties": {
+    "schema": {"const": "skill-lens.report-understanding-loop.v0.1"},
+    "status": {"enum": ["assignment-only", "reviewed"]},
+    "round": {"type": "integer", "minimum": 1},
+    "mode": {"enum": ["offline-html-only"]},
+    "reviewer": {"type": "object", "additionalProperties": false, "properties": {
+      "id": {"type": "string"}, "independence": {"enum": ["separate-internal", "external"]}
+    }},
+    "cases": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/case"}},
+    "aggregate": {"type": "object", "additionalProperties": false, "required": ["caseCount", "reviewedCaseCount"], "properties": {
+      "caseCount": {"type": "integer", "minimum": 0}, "reviewedCaseCount": {"type": "integer", "minimum": 0},
+      "meanScore": {"type": ["number", "null"], "minimum": 0, "maximum": 100},
+      "meanDimensions": {"type": "object", "additionalProperties": {"type": "number", "minimum": 0, "maximum": 100}}
+    }},
+    "nextIteration": {"type": "object", "additionalProperties": false, "required": ["priority", "recommendations"], "properties": {
+      "priority": {"enum": ["none", "low", "medium", "high"]},
+      "recommendations": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["id", "issue", "action", "caseIds"], "properties": {
+        "id": {"type": "string"}, "issue": {"type": "string"}, "action": {"type": "string"}, "caseIds": {"type": "array", "items": {"type": "string"}}
+      }}}
+    }}
+  },
+  "$defs": {
+    "case": {"type": "object", "additionalProperties": false, "required": ["caseId", "kind", "reportPath", "question", "status", "dimensions"], "properties": {
+      "caseId": {"type": "string"}, "kind": {"type": "string"}, "reportPath": {"type": "string"}, "question": {"type": "string"},
+      "status": {"enum": ["pending", "reviewed"]}, "score": {"type": ["number", "null"], "minimum": 0, "maximum": 100},
+      "dimensions": {"type": "object", "additionalProperties": {"type": ["number", "null"], "minimum": 0, "maximum": 100}},
+      "understanding": {"type": "object", "additionalProperties": false, "properties": {
+        "purpose": {"type": "string"}, "mechanism": {"type": "string"}, "boundary": {"type": "string"}, "plainLanguage": {"type": "string"}
+      }},
+      "issues": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["id", "severity", "dimension", "description", "recommendation"], "properties": {
+        "id": {"type": "string"}, "severity": {"enum": ["low", "medium", "high"]}, "dimension": {"enum": ["evidence", "mechanism", "plainLanguage", "navigation", "boundaries"]},
+        "description": {"type": "string"}, "recommendation": {"type": "string"}
+      }}}
+    }}
+  }
+}

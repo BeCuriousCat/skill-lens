@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://skill-lens.dev/schema/benchmark-questions.v1.json",
+  "title": "Skill Lens Benchmark Questions v1",
+  "type": "object",
+  "required": ["schema", "caseId", "revision", "questions"],
+  "properties": {
+    "schema": {"const": "skill-lens.benchmark-questions.v1"},
+    "caseId": {"type": "string", "minLength": 1},
+    "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "questions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "question", "mustInclude", "mustNotClaim", "evidence", "unknown"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "question": {"type": "string", "minLength": 1},
+          "mustInclude": {"type": "array", "items": {"type": "string"}},
+          "mustNotClaim": {"type": "array", "items": {"type": "string"}},
+          "evidence": {"type": "array", "items": {"type": "string"}},
+          "unknown": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

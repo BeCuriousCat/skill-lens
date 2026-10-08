@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>@@TITLE@@ · Skill Lens</title>
+<style>@@CSS@@</style>
+</head>
+<body>
+<main id="lens-report">
+<header class="report-header">
+<a class="wordmark" href="#lens-report">Skill Lens<span>透视报告</span></a>
+<div class="header-controls"><button id="theme" type="button">切换明暗</button><button id="print" type="button">打印报告</button></div>
+</header>
+<section class="intro" aria-labelledby="report-title">
+<h1 id="report-title">@@TITLE@@</h1>
+<p class="lead">先理解它能做什么，再沿着证据看清依据。</p>
+<p id="report-meta" class="technical">源码版本 @@REVISION@@</p>
+<p class="boundary">静态源码透视 · 引用有效不代表解释一定正确 · 真实执行与远程模型内部机制仍需其他证据</p>
+</section>
+@@MECHANISM@@
+<h2 class="source-details-title">能力条目与源码证据</h2>
+<div class="report-body" id="meaning-browser">
+<aside aria-label="查找能力与解释">
+<div id="reading-mode" class="categories" aria-label="阅读层次"></div>
+<label for="search">查找能力或源码关键词</label>
+<input id="search" type="search" placeholder="例如：baseline、评分、viewer" autocomplete="off">
+<div id="categories" class="categories" aria-label="解释类型"></div>
+<p id="list-status" class="subtle" aria-live="polite"></p>
+<nav id="object-list" aria-label="解释条目"></nav>
+<div id="pages" class="pages"></div>
+</aside>
+<article id="detail" aria-label="当前解释与证据">
+<noscript><p>这是离线报告。以下为静态预览；启用 JavaScript 可使用筛选、关系图和证据展开。</p></noscript>
+<div id="fallback">@@FALLBACK@@</div>
+</article>
+</div>
+<details class="diagnostics"><summary id="diagnostic-summary">分析诊断与来源记录</summary><div id="diagnostic-content"></div></details>
+<footer>排版与布局借鉴 <span>diagram-design</span> · Skill Lens 独立实现 · 离线可读，无外部请求</footer>
+</main>
+<script id="lens-data" type="application/json">@@DATA@@</script>
+<script>@@JS@@</script>
+</body>
+</html>

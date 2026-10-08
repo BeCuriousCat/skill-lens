@@ -1,0 +1,19 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://skill-lens.dev/schema/license-record.v1.json",
+  "title":"Skill Lens License Record v1",
+  "type":"object",
+  "required":["schema","caseId","repository","revision","artifactPath","status"],
+  "properties":{
+    "schema":{"const":"skill-lens.license-record.v1"},
+    "caseId":{"type":"string","minLength":1},
+    "repository":{"type":"string","format":"uri"},
+    "revision":{"type":"string","pattern":"^[0-9a-f]{40}$"},
+    "artifactPath":{"type":"string","minLength":1},
+    "declaredByArtifact":{"type":"object"},
+    "repositoryLicense":{"type":"object"},
+    "status":{"enum":["needs-compatibility-review","restricted-review-required","cleared"]},
+    "redistribution":{"type":"string"}
+  },
+  "additionalProperties":false
+}
